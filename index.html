@@ -1,23 +1,39 @@
 <!DOCTYPE html>
 <html>
-<body>
+<body style="background:#0c0c0a;color:white;font-family:sans-serif;padding:30px;">
 
-<h1>Pet Product App</h1>
+<h1>Pet Product Intelligence</h1>
 
-<button onclick="run()">Generate</button>
+<button onclick="run()" style="padding:10px;background:#d4a853;border:none;">
+Generate
+</button>
 
-<pre id="out"></pre>
+<div id="out" style="margin-top:20px;"></div>
 
 <script>
 async function run() {
   const res = await fetch("/api/research", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({ prompt: "Give 3 pet products" })
+    body: JSON.stringify({ prompt: "test" })
   });
 
   const data = await res.json();
-  document.getElementById("out").innerText = JSON.stringify(data, null, 2);
+
+  let html = "";
+
+  data.products.forEach(p => {
+    html += `
+      <div style="border:1px solid #333;padding:15px;margin-bottom:15px;">
+        <h2>${p.name}</h2>
+        <p><b>Hook:</b> ${p.hook}</p>
+        <p><b>Price:</b> ${p.sell_gbp}</p>
+        <p><b>Problem:</b> ${p.pain_point}</p>
+      </div>
+    `;
+  });
+
+  document.getElementById("out").innerHTML = html;
 }
 </script>
 
