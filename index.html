@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Pet Product App</h1>
+
+<button onclick="run()">Generate</button>
+
+<pre id="out"></pre>
+
+<script>
+async function run() {
+  const res = await fetch("/api/research", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ prompt: "Give 3 pet products" })
+  });
+
+  const data = await res.json();
+  document.getElementById("out").innerText = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
